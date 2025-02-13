@@ -11,8 +11,8 @@ class Player{
         this.xPos += 20
     }
     Draw(){
-        textSize(32); // Renders the player
-        text(this.xPos,this.yPos,this.icon)
+        textSize(40); // Renders the player
+        text(this.icon,this.xPos,this.yPos)
     }
 
 }
