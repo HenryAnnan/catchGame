@@ -18,3 +18,11 @@ function keyPressed(event){
     }
 
 }
+
+function randomPos() {
+    let setXPos = random(50, width - 50)
+    while (setXPos > 350 || setXPos < 50) {
+        setXPos = random() * 400;
+    }
+    return setXPos
+}
