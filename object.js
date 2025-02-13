@@ -1,11 +1,11 @@
-class Object {
+class Ball {
     constructor(x) {
         this.icon = ''
         this.xPos = x
         this.yPos = -50;
         this.speed = 5;
 
-        let ballType=random(0,1)
+        let ballType= Math.random()
         if (ballType >0.5){
             this.icon= '🥎';
         } else ( this.icon = '⚾')
