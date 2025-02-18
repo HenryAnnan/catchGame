@@ -1,5 +1,6 @@
 let currentPlayer;
 let balls = []
+let score = 0;
 
 function setup() {
     createCanvas(400, 400);
@@ -13,6 +14,8 @@ function draw(){
     ballFrame()
     timeManager()
     playerObjectCollision()
+    scoreHandler()
+    drawLives()
 }
 
 
@@ -31,7 +34,7 @@ function ballFrame(){
         balls[i].fall()
         if (balls[i].hitFloor()){
             balls.splice(i,1)
-            // Decrease Life
+            currentPlayer.decreaseLives();
         }
     }
 }
@@ -58,7 +61,7 @@ function playerObjectCollision(){
         let objectY = balls[i].yPos
         let distance = dist(playerX,playerY,objectX,objectY)
         if (distance < 35){
-            //SCORE INCREASE
+            score++
             balls.splice(i,1)
         }
     }
@@ -71,4 +74,27 @@ function timeManager(){
     let time = Math.floor(millis() / 1000);
     textSize(15);
     text(`Timer: ${time}`, 300, 20);
+}
+
+function scoreHandler(){
+    color('black')
+    text(`Score: ${score}`,200,20)
+}
+
+function drawLives(){ // This function draws the number of lives in heart emojis to the screen
+    textSize(15)
+    // A switch statement was used to reduce the amount of if else statements that become hard to read.
+    switch (currentPlayer.lives){ // Gets the current amount of lives from the current player object.
+
+        // Creates text with the respective amount of hearts to lives the player has.
+        case 1: text("❤️",20,20)
+            break;
+        case 2: text("❤️❤️",20,20)
+            break;
+        case 3: text ("❤️❤️❤️️",20,20)
+            break;
+        case 4: text("❤️❤️❤️❤️", 20,20)
+            break;
+        case 5: text("❤️❤️❤️❤️❤️", 20,20)
+    }
 }
