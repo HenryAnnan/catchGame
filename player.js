@@ -5,10 +5,10 @@ class Player{
         this.yPos = 380;
     }
     moveLeft(){
-        this.xPos -= 20
+        this.xPos -= 25
     }
     moveRight(){
-        this.xPos += 20
+        this.xPos += 25
     }
     Draw(){
         textSize(40); // Renders the player

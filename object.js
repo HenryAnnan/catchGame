@@ -6,7 +6,7 @@ class Ball {
         this.speed = 5;
 
         let ballType= Math.random()
-        if (ballType >0.5){
+        if (ballType >0.2){
             this.icon= '🥎';
         } else ( this.icon = '⚾')
     }
@@ -16,8 +16,16 @@ class Ball {
     }
 
     Draw(){
-        textSize(32);
+        textSize(28);
         text(this.icon, this.xPos, this.yPos);
+    }
+
+    hitFloor(){
+        if (this.yPos === 400){
+            return true
+        }else{
+            return false
+        }
     }
 
 }
