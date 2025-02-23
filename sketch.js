@@ -1,21 +1,38 @@
 let currentPlayer;
 let balls = []
 let score = 0;
+let restartButton;
+let bgImage
+let bgMusic;
+let musicPlay = false
+
+function preload(){
+    soundFormats('mp3');
+    bgMusic = loadSound('./better-day-186374'); // Preload the background music
+
+}
 
 function setup() {
     createCanvas(400, 400);
     currentPlayer = new Player();
     addBall()
     setInterval(addBall, 1000); // Spawns a ball every 0.3 seconds
+    createRestartButton()
+    bgImage= loadImage('./landscape.png'); // Preload the background image
+
 }
 function draw(){
-    background('grey')
+    bgMusic.play();
+
+    background(bgImage)
     currentPlayer.Draw()
     ballFrame()
     timeManager()
     playerObjectCollision()
     scoreHandler()
     drawLives()
+    checkGameOver()
+
 }
 
 
@@ -98,3 +115,27 @@ function drawLives(){ // This function draws the number of lives in heart emojis
         case 5: text("❤️❤️❤️❤️❤️", 20,20)
     }
 }
+
+
+
+//restart game function
+function restartGame() {
+    location.reload()
+}
+
+
+function checkGameOver() {
+    if (currentPlayer.lives <= 0) {
+        gameOver = true;
+        restartButton.show();
+        noLoop()
+    }
+}
+
+function createRestartButton() {
+    restartButton = createButton('Restart');
+    restartButton.position(200, 200);
+    restartButton.mousePressed(restartGame);
+    restartButton.hide();
+}
+
