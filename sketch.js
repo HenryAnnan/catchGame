@@ -3,27 +3,19 @@ let balls = []
 let score = 0;
 let restartButton;
 let bgImage
-let bgMusic;
-let musicPlay = false
 
-function preload(){
-    soundFormats('mp3');
-    bgMusic = loadSound('./better-day-186374'); // Preload the background music
 
-}
-
-function setup() {
+function setup() { // P5js function runs once only
     createCanvas(400, 400);
     currentPlayer = new Player();
     addBall()
-    setInterval(addBall, 1000); // Spawns a ball every 0.3 seconds
+    setInterval(addBall, 800);
     createRestartButton()
-    bgImage= loadImage('./landscape.png'); // Preload the background image
+    bgImage= loadImage('./landscape.png'); // Loads the background image
+
 
 }
 function draw(){
-    bgMusic.play();
-
     background(bgImage)
     currentPlayer.Draw()
     ballFrame()
@@ -36,15 +28,22 @@ function draw(){
 }
 
 
+// P5js function that runs whenever a keyboard key is pressed.
 function keyPressed(event){
     if (event.key === "ArrowLeft"){
         currentPlayer.moveLeft()
     }else if(event.key === "ArrowRight"){
         currentPlayer.moveRight()
+    }else if(event.key === 'a'){
+        currentPlayer.moveLeft()
+    }else if(event.key === 'd'){
+        currentPlayer.moveRight()
     }
 
 }
 
+// This function runs every frame and loops through all the balls and draws them and then makes them fall
+// If the ball hit the floor, it will decrease the player's life.
 function ballFrame(){
     for(let i = 0; i < balls.length-1;i++){
         balls[i].Draw()
@@ -55,7 +54,7 @@ function ballFrame(){
         }
     }
 }
-
+// Returns a new X position of the ball, ensuring that it doesn't go off-screen.
 function randomPos() {
     let setXPos = Math.random() * 400;
     while (setXPos > 350 || setXPos < 50) {
@@ -64,15 +63,17 @@ function randomPos() {
     return setXPos
 }
 
+// Instantiates a new ball and adds it to the end of the balls array.
 function addBall(){
     let newBall = new Ball(randomPos())
-    console.log(newBall)
     balls.push(newBall)
 }
 
+// This function checks if a ball has been caught by the player
 function playerObjectCollision(){
     let playerX = currentPlayer.xPos
     let playerY = currentPlayer.yPos
+    // It first loops over all balls in the array and checks if they are within a certain distance.
     for (let i = 0; i < balls.length-1;i++){
         let objectX = balls[i].xPos
         let objectY = balls[i].yPos
@@ -85,7 +86,7 @@ function playerObjectCollision(){
 
 }
 
-
+// Gets the current seconds since the game started and displays it to the canvas.
 function timeManager(){
     fill("black");
     let time = Math.floor(millis() / 1000);
@@ -93,17 +94,20 @@ function timeManager(){
     text(`Timer: ${time}`, 300, 20);
 }
 
+// Displays the current score to the canvas
 function scoreHandler(){
     color('black')
     text(`Score: ${score}`,200,20)
 }
 
-function drawLives(){ // This function draws the number of lives in heart emojis to the screen
+// Draws the amount of lives to the canvas
+function drawLives(){
     textSize(15)
-    // A switch statement was used to reduce the amount of if else statements that become hard to read.
-    switch (currentPlayer.lives){ // Gets the current amount of lives from the current player object.
 
-        // Creates text with the respective amount of hearts to lives the player has.
+    // Switch statement displays the amount of heats based on the amount of lives the player has.
+    switch (currentPlayer.lives){
+
+
         case 1: text("❤️",20,20)
             break;
         case 2: text("❤️❤️",20,20)
@@ -128,14 +132,24 @@ function checkGameOver() {
     if (currentPlayer.lives <= 0) {
         gameOver = true;
         restartButton.show();
-        noLoop()
+        endGameScreen()
+        noLoop() // Stops the game
+
     }
 }
 
 function createRestartButton() {
     restartButton = createButton('Restart');
-    restartButton.position(200, 200);
+    restartButton.position(174, 220);
     restartButton.mousePressed(restartGame);
     restartButton.hide();
 }
 
+// Shows the game over text
+function endGameScreen() {
+    textSize(32);
+    fill('white');
+    text('Game Over', 120, 150);
+    textSize(20);
+    text('Click Restart to Play Again', 90, 200);
+}
