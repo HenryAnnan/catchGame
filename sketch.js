@@ -29,17 +29,16 @@ function draw(){
 
 
 // P5js function that runs whenever a keyboard key is pressed.
-function keyPressed(event){
-    if (event.key === "ArrowLeft"){
-        currentPlayer.moveLeft()
-    }else if(event.key === "ArrowRight"){
-        currentPlayer.moveRight()
-    }else if(event.key === 'a'){
-        currentPlayer.moveLeft()
-    }else if(event.key === 'd'){
-        currentPlayer.moveRight()
+function keyPressed(event) {
+    if (event.key === "ArrowLeft" || event.key === 'a') {
+        if (currentPlayer.xPos > 0) {
+            currentPlayer.moveLeft();
+        }
+    } else if (event.key === "ArrowRight" || event.key === 'd') {
+        if (currentPlayer.xPos < 350) {
+            currentPlayer.moveRight();
+        }
     }
-
 }
 
 // This function runs every frame and loops through all the balls and draws them and then makes them fall
